@@ -1,34 +1,42 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import './App.css'
+import React, { useState } from 'react';
+import ProjectList from './components/ProjectList';
+import ProjectForm from './components/ProjectForm';
+import SearchBar from './components/SearchBar';
 
 function App() {
-  const [count, setCount] = useState(0)
+  // 1. State: The 'memory' of our app
+  const [projects, setProjects] = useState([
+    { id: 1, title: "Portfolio Website", description: "A sleek personal site." },
+    { id: 2, title: "E-commerce App", description: "Built with React and Stripe." }
+  ]);
+  const [searchTerm, setSearchTerm] = useState("");
+
+  // 2. Logic: Adding a new project
+  const addProject = (newProject) => {
+    setProjects([...projects, { ...newProject, id: Date.now() }]);
+  };
+
+  // 3. Logic: Filtering projects based on search
+  const filteredProjects = projects.filter(project =>
+    project.title.toLowerCase().includes(searchTerm.toLowerCase())
+  );
 
   return (
-    <div className="App">
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src="/vite.svg" className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://reactjs.org" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
+    <div className="min-h-screen bg-gray-100 p-8">
+      <div className="max-w-4xl mx-auto space-y-8">
+        <header className="text-center">
+          <h1 className="text-4xl font-bold text-blue-600">Project Dashboard</h1>
+        </header>
+
+        {/* We pass the 'setSearchTerm' function so the child can update the parent's state */}
+        <SearchBar onSearchChange={setSearchTerm} />
+        
+        <ProjectForm onAddProject={addProject} />
+        
+        <ProjectList projects={filteredProjects} />
       </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
     </div>
-  )
+  );
 }
 
-export default App
+export default App;
