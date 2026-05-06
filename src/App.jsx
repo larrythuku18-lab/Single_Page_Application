@@ -1,38 +1,45 @@
 import React, { useState } from 'react';
+import './App.css';
 import ProjectList from './components/ProjectList';
 import ProjectForm from './components/ProjectForm';
 import SearchBar from './components/SearchBar';
 
 function App() {
-  // 1. State: The 'memory' of our app
   const [projects, setProjects] = useState([
-    { id: 1, title: "Portfolio Website", description: "A sleek personal site." },
-    { id: 2, title: "E-commerce App", description: "Built with React and Stripe." }
+    { id: 1, title: 'Portfolio Website', description: 'A sleek personal site built with modern UI patterns.' },
+    { id: 2, title: 'E-commerce App', description: 'Integrated payment flows using React and Stripe.' }
   ]);
-  const [searchTerm, setSearchTerm] = useState("");
+  const [searchTerm, setSearchTerm] = useState('');
 
-  // 2. Logic: Adding a new project
   const addProject = (newProject) => {
     setProjects([...projects, { ...newProject, id: Date.now() }]);
   };
 
-  // 3. Logic: Filtering projects based on search
-  const filteredProjects = projects.filter(project =>
+  const filteredProjects = projects.filter((project) =>
     project.title.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
   return (
-    <div className="min-h-screen bg-gray-100 p-8">
-      <div className="max-w-4xl mx-auto space-y-8">
-        <header className="text-center">
-          <h1 className="text-4xl font-bold text-blue-600">Project Dashboard</h1>
+    <div className="app-shell">
+      <div className="app-container">
+        <header className="app-header">
+          <span className="app-tag">Junior developer dashboard</span>
+          <h1 className="app-title">Project Dashboard</h1>
+          <p className="app-subtitle">
+            Track your latest work, add new ideas, and search your project list with a clean, modern interface.
+          </p>
         </header>
 
-        {/* We pass the 'setSearchTerm' function so the child can update the parent's state */}
-        <SearchBar onSearchChange={setSearchTerm} />
-        
+        <section className="hero-panel">
+          <div>
+            <p className="hero-label">Create and manage your ideas</p>
+            <h2 className="hero-title">Simple, polished, and easy for a junior developer project.</h2>
+          </div>
+          <SearchBar onSearchChange={setSearchTerm} />
+        </section>
+
         <ProjectForm onAddProject={addProject} />
-        
+
         <ProjectList projects={filteredProjects} />
       </div>
     </div>

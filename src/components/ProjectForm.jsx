@@ -1,34 +1,38 @@
+/* eslint-disable react/prop-types */
+
 import { useState } from 'react';
 
 function ProjectForm({ onAddProject }) {
-  const [title, setTitle] = useState("");
-  const [desc, setDesc] = useState("");
+  const [title, setTitle] = useState('');
+  const [desc, setDesc] = useState('');
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (!title || !desc) return alert("Fill out both fields!");
-    
+    if (!title || !desc) {
+      return alert('Fill out both fields!');
+    }
+
     onAddProject({ title, description: desc });
-    setTitle(""); // Clear fields after adding
-    setDesc("");
+    setTitle('');
+    setDesc('');
   };
 
   return (
-    <form onSubmit={handleSubmit} className="bg-white p-6 rounded-xl shadow-md flex flex-col gap-4">
-      <h2 className="text-xl font-semibold">Add New Project</h2>
-      <input 
+    <form onSubmit={handleSubmit} className="project-form">
+      <h2>Add New Project</h2>
+      <input
         value={title}
         onChange={(e) => setTitle(e.target.value)}
-        placeholder="Project Title" 
-        className="p-2 border rounded"
+        placeholder="Project Title"
+        className="form-input"
       />
-      <textarea 
+      <textarea
         value={desc}
         onChange={(e) => setDesc(e.target.value)}
-        placeholder="Short Description" 
-        className="p-2 border rounded"
+        placeholder="Short Description"
+        className="form-textarea"
       />
-      <button className="bg-blue-600 text-white py-2 rounded hover:bg-blue-700 transition">
+      <button type="submit" className="primary-button">
         Create Project
       </button>
     </form>
